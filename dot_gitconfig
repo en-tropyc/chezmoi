@@ -1,0 +1,14 @@
+# This is Git's per-user configuration file.
+[user]
+	email = chris-tam8@hotmail.com
+	name = Chris Tam
+# Please adapt and uncomment the following lines:
+#	name = Chris Tam
+#	email = chris-tam8@hotmail.com
+[init]
+	defaultBranch = main
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true

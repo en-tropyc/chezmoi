@@ -1,0 +1,78 @@
+# >>> antigen initialize >>>
+source /opt/homebrew/share/antigen/antigen.zsh
+
+# Load the oh-my-zsh library
+antigen use oh-my-zsh
+
+# Syntax highlighting bundle
+antigen bundle zsh-users/zsh-syntax-highlighting
+
+# Auto-suggestions bundle
+antigen bundle zsh-users/zsh-autosuggestions
+
+# Load antigen theme
+# Favourites:
+#   Single-line: af-magic, apple, peepcode, robbyrussell, simple
+#   Multi-line: 3den, fino-time, fox, frisk, smt, strug, xiong-chiamiov-plus 
+antigen theme simple
+
+# Tell antigen you're done
+antigen apply
+
+# Modify $PATH
+export PATH="/Users/chris/.local/bin:$PATH"
+
+bindkey -v
+alias clr="clear && neofetch"
+alias cog="cd ~/Documents/cog-second-brain/"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# Set large history file size
+HISTSIZE=10000000
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# export TERM="xterm-256color"
+# export COLORTERM="truecolor"
+
+neofetch
+
+
+export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"
+export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
+
+[ -f "/Users/chris/.ghcup/env" ] && source "/Users/chris/.ghcup/env" # ghcup-env
+
+
+export PATH="$PATH:/Users/chris/.risc0/bin"
+
+
+# bun completions
+[ -s "/Users/chris/.bun/_bun" ] && source "/Users/chris/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+alias vim="nvim"
+
+# Terminal theme switching
+dark() {
+  osascript -e 'tell application "Terminal" to set current settings of front window to settings set "0 dark:chalk"'
+}
+
+light() {
+  osascript -e 'tell application "Terminal" to set current settings of front window to settings set "0 light:ayu-light"'
+}
+
+# GWS CLI multi-account aliases
+alias gws-work='GOOGLE_WORKSPACE_CLI_CONFIG_DIR=~/.config/gws-work gws'
+alias gws-personal='GOOGLE_WORKSPACE_CLI_CONFIG_DIR=~/.config/gws-personal gws'
+
+# smux
+export PATH="$HOME/.smux/bin:$PATH"
+
+# Personal scripts
+export PATH="$HOME/bin:$PATH"
