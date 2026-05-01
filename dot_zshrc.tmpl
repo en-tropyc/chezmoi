@@ -1,5 +1,11 @@
 # >>> antigen initialize >>>
+{{ if eq .chezmoi.os "darwin" -}}
 source /opt/homebrew/share/antigen/antigen.zsh
+{{- else if eq .chezmoi.os "linux" -}}
+# Install on Arch/Omarchy: yay -S zsh-antigen  (or: curl -L git.io/antigen > ~/.antigen.zsh)
+[ -f /usr/share/zsh-antigen/antigen.zsh ] && source /usr/share/zsh-antigen/antigen.zsh \
+  || { [ -f ~/.antigen.zsh ] && source ~/.antigen.zsh; }
+{{- end }}
 
 # Load the oh-my-zsh library
 antigen use oh-my-zsh
@@ -13,14 +19,14 @@ antigen bundle zsh-users/zsh-autosuggestions
 # Load antigen theme
 # Favourites:
 #   Single-line: af-magic, apple, peepcode, robbyrussell, simple
-#   Multi-line: 3den, fino-time, fox, frisk, smt, strug, xiong-chiamiov-plus 
+#   Multi-line: 3den, fino-time, fox, frisk, smt, strug, xiong-chiamiov-plus
 antigen theme simple
 
 # Tell antigen you're done
 antigen apply
 
 # Modify $PATH
-export PATH="/Users/chris/.local/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
 
 bindkey -v
 alias clr="clear && neofetch"
@@ -38,27 +44,29 @@ export NVM_DIR="$HOME/.nvm"
 # export TERM="xterm-256color"
 # export COLORTERM="truecolor"
 
-neofetch
+command -v neofetch >/dev/null && neofetch
 
-
+{{ if eq .chezmoi.os "darwin" -}}
 export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"
 export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
+{{- end }}
 
-[ -f "/Users/chris/.ghcup/env" ] && source "/Users/chris/.ghcup/env" # ghcup-env
+[ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env" # ghcup-env
 
 
-export PATH="$PATH:/Users/chris/.risc0/bin"
+export PATH="$PATH:$HOME/.risc0/bin"
 
 
 # bun completions
-[ -s "/Users/chris/.bun/_bun" ] && source "/Users/chris/.bun/_bun"
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 alias vim="nvim"
 
-# Terminal theme switching
+{{ if eq .chezmoi.os "darwin" -}}
+# Terminal theme switching (macOS Terminal.app)
 dark() {
   osascript -e 'tell application "Terminal" to set current settings of front window to settings set "0 dark:chalk"'
 }
@@ -66,10 +74,12 @@ dark() {
 light() {
   osascript -e 'tell application "Terminal" to set current settings of front window to settings set "0 light:ayu-light"'
 }
+{{- end }}
 
 # GWS CLI multi-account aliases
 alias gws-work='GOOGLE_WORKSPACE_CLI_CONFIG_DIR=~/.config/gws-work gws'
 alias gws-personal='GOOGLE_WORKSPACE_CLI_CONFIG_DIR=~/.config/gws-personal gws'
+alias gws-bonsol='GOOGLE_WORKSPACE_CLI_CONFIG_DIR=~/.config/gws-bonsol gws'
 
 # smux
 export PATH="$HOME/.smux/bin:$PATH"

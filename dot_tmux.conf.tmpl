@@ -19,9 +19,17 @@ bind-key -T resize -r Right resize-pane -R 5
 # Enter copy mode with prefix+[
 # Use 'v' to begin selection, 'y' to copy to system clipboard
 bind-key -T copy-mode-vi v send-keys -X begin-selection
+{{ if eq .chezmoi.os "darwin" -}}
 bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "pbcopy"
 bind-key -T copy-mode-vi Enter send-keys -X copy-pipe-and-cancel "pbcopy"
 bind-key -T copy-mode-vi MouseDragEnd1Pane send-keys -X copy-pipe-and-cancel "pbcopy"
+{{- else if eq .chezmoi.os "linux" -}}
+# Wayland (Hyprland on Omarchy). Install: pacman -S wl-clipboard
+# For X11, replace wl-copy with: xclip -selection clipboard
+bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "wl-copy"
+bind-key -T copy-mode-vi Enter send-keys -X copy-pipe-and-cancel "wl-copy"
+bind-key -T copy-mode-vi MouseDragEnd1Pane send-keys -X copy-pipe-and-cancel "wl-copy"
+{{- end }}
 
 # Slow down mouse scroll (2 lines at a time)
 bind-key -T copy-mode-vi WheelUpPane send-keys -X -N 2 scroll-up
@@ -56,4 +64,3 @@ set -as terminal-features ',xterm-256color:hyperlinks'
 # Pass window title to Ghostty
 set -g set-titles on
 set -g set-titles-string "#{pane_current_path}"
-
